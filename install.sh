@@ -54,6 +54,7 @@ sudo systemctl restart postgresql@$PGVERSION-main
 
 gzip -d -f transactions_1M.csv.gz
 sed -i '1d' transactions_1M.csv
+mkdir -p split
 time split -l 100000 transactions_1M.csv split/transactions_chunk_
 
 

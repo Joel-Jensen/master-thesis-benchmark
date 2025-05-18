@@ -19,3 +19,5 @@ This will run the benchmark too. If you want to just rerun the bencharm you may 
 ```bash
 ./benchmark.sh
 ```
+
+You can pass `-d` to debug and print out all the called lines. 

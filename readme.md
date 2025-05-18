@@ -21,3 +21,6 @@ This will run the benchmark too. If you want to just rerun the bencharm you may 
 ```
 
 You can pass `-d` to debug and print out all the called lines. 
+
+### pg_mooncake
+To run the tests with pg_mooncake, look at the latest installation instructions here: https://pgmooncake.com/docs/installation

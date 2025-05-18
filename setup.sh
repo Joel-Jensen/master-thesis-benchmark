@@ -10,7 +10,7 @@ fi
 
 STRATEGY=$1
 
-sudo -u postgres psql -t -c 'DROP DATABASE test'
+sudo -u postgres psql -t -c 'DROP DATABASE test WITH (FORCE)'
 sudo -u postgres psql -t -c 'CREATE DATABASE test'
 sudo -u postgres psql test -t < strategies/$STRATEGY/create.sql
 

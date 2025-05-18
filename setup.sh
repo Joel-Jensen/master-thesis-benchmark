@@ -51,7 +51,7 @@ EOF
 
 sudo systemctl restart postgresql@$PGVERSION-main
 
-gzip -d -f transactions_1M.csv.zip
+gzip -d -f transactions_1M.csv.gz
 
 sudo -u postgres psql -t -c 'CREATE DATABASE test'
 sudo -u postgres psql test -t < create.sql

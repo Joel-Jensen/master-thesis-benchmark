@@ -15,7 +15,7 @@ cat "$QUERY_FILE" | while read -r query; do
         [[ "$?" == "0" ]] && echo -n "${RES}" || echo -n "null"
         [[ "$i" != $TRIES ]] && echo -n ", "
 
-        echo "${QUERY_NUM},${i},${RES}" >> result.csv
+        echo "Time: ${RES##*Time: } ms"
     done
     echo "],"
 

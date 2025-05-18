@@ -6,7 +6,6 @@ threads=$(nproc)
 cpus=$((threads > 1 ? threads / 2 : 1))
 
 # Using COPY with explicit column mapping to ensure correct alignment.
-time split -l 100000 transactions_1M.csv split/transactions_chunk_
 for chunk in split/transactions_chunk_*
 do
     #echo "Loading $chunk into database..."

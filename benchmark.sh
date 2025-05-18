@@ -8,7 +8,7 @@ echo "Database size:"
 sudo du -bcs /var/lib/postgresql/$PGVERSION/main/
 
 # Array of query files to test
-QUERY_FILES=("queries.sql" "query_2024.sql" "query_1y.sql")
+QUERY_FILES=("queries.sql" "queries_2024.sql" "queries_1y.sql")
 
 for query_file in "${QUERY_FILES[@]}"; do
     echo "Running benchmark with $query_file"

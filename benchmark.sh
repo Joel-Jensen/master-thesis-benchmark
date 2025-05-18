@@ -1,6 +1,20 @@
 #!/bin/bash
 
-set -eux
+# Always set -eu flags
+set -eu
+
+# Parse command line arguments
+while getopts "d" opt; do
+  case $opt in
+    d)
+      set -x
+      ;;
+    \?)
+      echo "Invalid option: -$OPTARG" >&2
+      exit 1
+      ;;
+  esac
+done
 
 PGVERSION=17
 

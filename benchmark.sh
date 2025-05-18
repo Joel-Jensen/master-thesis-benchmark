@@ -39,8 +39,8 @@ for query_file in "${QUERY_FILES[@]}"; do
         BEGIN { 
             total = 0; 
             count = 0;
-            # Initialize arrays to store times for each query
-            for (i = 0; i < 3; i++) {
+            # Initialize with a large array size, we will track the actual number of queries
+            for (i = 0; i < 100; i++) {
                 min_times[i] = 999999;
             }
         }
@@ -48,19 +48,20 @@ for query_file in "${QUERY_FILES[@]}"; do
             total += $1; 
             count++;
             # Store minimum time for each query (3 runs per query)
-            query_idx = (count - 1) % 3;
+            query_idx = int((count - 1) / 3);
             if ($1 < min_times[query_idx]) {
                 min_times[query_idx] = $1;
             }
         }
         END { 
+            num_queries = int(count / 3);
             printf "Total runtime: %.3f ms\n", total;
             printf "Mean time per query: %.3f ms\n", total/count;
             
             # Find query with highest minimum time
             max_min_time = 0;
             max_min_query = 0;
-            for (i = 0; i < 3; i++) {
+            for (i = 0; i < num_queries; i++) {
                 if (min_times[i] > max_min_time) {
                     max_min_time = min_times[i];
                     max_min_query = i + 1;

@@ -1,16 +1,11 @@
+SELECT COUNT(DISTINCT user_id) AS distinct_user_count FROM transactions;
+SELECT id, user_id, amount, type, country_code, created_at FROM transactions ORDER BY amount DESC LIMIT 10;
+SELECT COUNT(*) AS transactions_above_average FROM transactions WHERE amount > (SELECT AVG(amount) FROM transactions);
+SELECT user_id, COUNT(*) AS transaction_count, SUM(amount) AS total_amount FROM transactions WHERE user_id IN (1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000) GROUP BY user_id ORDER BY transaction_count DESC;
+SELECT type, COUNT(*) AS transaction_count, SUM(amount) AS total_amount FROM transactions GROUP BY type ORDER BY transaction_count DESC;
+SELECT user_id, COUNT(*) AS transaction_count, SUM(amount) AS total_amount, AVG(amount) AS average_amount FROM transactions GROUP BY user_id ORDER BY total_amount DESC LIMIT 10;
 WITH active_users AS ( SELECT user_id, MAX(created_at) AS last_transaction FROM transactions WHERE created_at >= NOW() - INTERVAL '1 year' GROUP BY user_id ) SELECT user_id, last_transaction FROM active_users WHERE last_transaction < NOW() - INTERVAL '3 months';
 SELECT EXTRACT(HOUR FROM created_at) AS transaction_hour, type, COUNT(*) AS transaction_count FROM transactions GROUP BY EXTRACT(HOUR FROM created_at), type ORDER BY transaction_hour, transaction_count DESC LIMIT 5;
-
-SELECT user_id, amount, created_at, ROW_NUMBER() OVER (PARTITION BY user_id ORDER BY created_at) AS transaction_number FROM transactions WHERE transaction_number <= 3 ORDER BY user_id, transaction_number;
-SELECT id, user_id, amount, type, country_code, created_at FROM transactions ORDER BY amount DESC LIMIT 10;
-SELECT COUNT(DISTINCT user_id) AS distinct_user_count FROM transactions;
-SELECT id, user_id, amount, type, country_code, created_at FROM transactions ORDER BY amount DESC LIMIT 1;
-SELECT user_id, COUNT(*) AS transaction_count, SUM(amount) AS total_amount, AVG(amount) AS average_amount FROM transactions GROUP BY user_id ORDER BY total_amount DESC LIMIT 10;
-SELECT user_id, COUNT(*) AS transaction_count, SUM(amount) AS total_amount FROM transactions GROUP BY user_id ORDER BY RANDOM();
-SELECT type, COUNT(*) AS transaction_count, SUM(amount) AS total_amount FROM transactions GROUP BY type ORDER BY transaction_count DESC;
+SELECT user_id, amount, created_at, transaction_number FROM ( SELECT user_id, amount, created_at, ROW_NUMBER() OVER (PARTITION BY user_id ORDER BY created_at) AS transaction_number FROM transactions ) sub WHERE transaction_number <= 3 ORDER BY user_id, transaction_number;
 WITH user_summary AS ( SELECT user_id, COUNT(*) AS transaction_count, COUNT(DISTINCT DATE(created_at)) AS daily_count, COUNT(DISTINCT DATE_TRUNC('week', created_at)) AS weekly_count, COUNT(DISTINCT DATE_TRUNC('month', created_at)) AS monthly_count, COUNT(DISTINCT DATE_TRUNC('quarter', created_at)) AS quarterly_count, COUNT(DISTINCT DATE_TRUNC('year', created_at)) AS yearly_count FROM transactions GROUP BY user_id ), user_totals AS ( SELECT COUNT(*) AS total_users FROM user_summary ) SELECT (SELECT COUNT(*) FROM user_summary WHERE transaction_count = 0) / (SELECT total_users FROM user_totals) * 100 AS zero_transactions_percentage, (SELECT COUNT(*) FROM user_summary WHERE daily_count >= 1) / (SELECT total_users FROM user_totals) * 100 AS daily_users_percentage, (SELECT COUNT(*) FROM user_summary WHERE weekly_count >= 1) / (SELECT total_users FROM user_totals) * 100 AS weekly_users_percentage, (SELECT COUNT(*) FROM user_summary WHERE monthly_count >= 1) / (SELECT total_users FROM user_totals) * 100 AS monthly_users_percentage, (SELECT COUNT(*) FROM user_summary WHERE quarterly_count >= 1) / (SELECT total_users FROM user_totals) * 100 AS quarterly_users_percentage, (SELECT COUNT(*) FROM user_summary WHERE yearly_count >= 1) / (SELECT total_users FROM user_totals) * 100 AS yearly_users_percentage;
-
-
-SELECT * FROM transactions;
-SELECT id, amount, country_code, type, platform, user_id, created_at FROM transactions;
 WITH RankedUsers AS ( SELECT user_id, SUM(amount) AS total_amount, RANK() OVER (ORDER BY SUM(amount) DESC) AS user_rank FROM transactions GROUP BY user_id ), Top10Users AS ( SELECT user_id FROM RankedUsers WHERE user_rank <= 10 ), RankedTransactions AS ( SELECT t.user_id, t.id, t.amount, ROW_NUMBER() OVER (PARTITION BY t.user_id ORDER BY t.amount DESC) AS transaction_rank FROM transactions t JOIN Top10Users u ON t.user_id = u.user_id ) SELECT user_id, id, amount FROM RankedTransactions WHERE transaction_rank <= 10 ORDER BY user_id, amount DESC;

@@ -7,4 +7,4 @@ CREATE TABLE transactions
     "country_code" varchar(255) NOT NULL,
     "platform" varchar(255) NOT NULL,
     "created_at" timestamp(0) NOT NULL
-);
+) PARTITION BY RANGE (created_at);

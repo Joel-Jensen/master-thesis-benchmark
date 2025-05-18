@@ -4,20 +4,31 @@ set -eux
 
 PGVERSION=17
 
-./run.sh 2>&1 | tee log.txt
-
+echo "Database size:"
 sudo du -bcs /var/lib/postgresql/$PGVERSION/main/
 
-cat log.txt | grep -oP 'Time: \d+\.\d+ ms' | sed -r -e 's/Time: ([0-9]+\.[0-9]+) ms/\1/' |
-    awk '{ if (i % 3 == 0) { printf "[" }; printf $1 / 1000; if (i % 3 != 2) { printf "," } else { print "]," }; ++i; }'
+# Array of query files to test
+QUERY_FILES=("queries.sql" "query_2024.sql" "query_1y.sql")
 
-# Calculate total and mean runtime statistics
-echo -e "\nRuntime Statistics:"
-cat log.txt | grep -oP 'Time: \d+\.\d+ ms' | sed -r -e 's/Time: ([0-9]+\.[0-9]+) ms/\1/' |
-    awk '
-    BEGIN { total = 0; count = 0; }
-    { total += $1; count++; }
-    END { 
-        printf "Total runtime: %.3f ms\n", total;
-        printf "Mean time per query: %.3f ms\n", total/count;
-    }'
+for query_file in "${QUERY_FILES[@]}"; do
+    echo "Running benchmark with $query_file"
+    ./run.sh "$query_file" 2>&1 | tee "log_${query_file%.sql}.txt"
+
+
+    echo "Results for $query_file:"
+    cat "log_${query_file%.sql}.txt" | grep -oP 'Time: \d+\.\d+ ms' | sed -r -e 's/Time: ([0-9]+\.[0-9]+) ms/\1/' |
+        awk '{ if (i % 3 == 0) { printf "[" }; printf $1 / 1000; if (i % 3 != 2) { printf "," } else { print "]," }; ++i; }'
+
+    # Calculate total and mean runtime statistics
+    echo -e "\nRuntime Statistics for $query_file:"
+    cat "log_${query_file%.sql}.txt" | grep -oP 'Time: \d+\.\d+ ms' | sed -r -e 's/Time: ([0-9]+\.[0-9]+) ms/\1/' |
+        awk '
+        BEGIN { total = 0; count = 0; }
+        { total += $1; count++; }
+        END { 
+            printf "Total runtime: %.3f ms\n", total;
+            printf "Mean time per query: %.3f ms\n", total/count;
+        }'
+    
+    echo -e "\n----------------------------------------\n"
+done

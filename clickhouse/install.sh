@@ -30,6 +30,7 @@ done
 
 clickhouse-client < create.sql
 
+clickhouse-client --time --query "TRUNCATE TABLE transactions"
 clickhouse-client --time --query "INSERT INTO transactions FORMAT CSV" < ../transactions_10M.csv
 
 # Run the queries

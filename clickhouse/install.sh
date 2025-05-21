@@ -33,8 +33,4 @@ clickhouse-client < create.sql
 clickhouse-client --time --query "TRUNCATE TABLE transactions"
 clickhouse-client --time --query "INSERT INTO transactions FORMAT CSV" < ../transactions_10M.csv
 
-# Run the queries
-
-./run.sh
-
 clickhouse-client --query "SELECT total_bytes FROM system.tables WHERE name = 'transactions' AND database = 'default'"

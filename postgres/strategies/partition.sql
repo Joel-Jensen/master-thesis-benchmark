@@ -85,3 +85,4 @@ ALTER TABLE transactions_y2023 ADD CONSTRAINT transactions_y2023_check
 
 ALTER TABLE transactions_y2024 ADD CONSTRAINT transactions_y2024_check
     CHECK (created_at >= '2024-01-01' AND created_at < '2025-01-01');
+*/

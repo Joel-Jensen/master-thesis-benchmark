@@ -12,7 +12,7 @@ STRATEGY=$1
 
 sudo -u postgres psql -t -c 'DROP DATABASE test WITH (FORCE)'
 sudo -u postgres psql -t -c 'CREATE DATABASE test'
-sudo -u postgres psql test -t < strategies/$STRATEGY/create.sql
+sudo -u postgres psql test -t < strategies/$STRATEGY.sql
 
 threads=$(nproc)
 cpus=$((threads > 1 ? threads / 2 : 1))

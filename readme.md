@@ -2,6 +2,15 @@
 
 Built on top of code from the [ClickBench](https://github.com/ClickHouse/ClickBench) project.
 
+## Download the data
+1M: https://inly-master-thesis.ams3.digitaloceanspaces.com/transactions_1M.csv.gz
+
+10M: https://inly-master-thesis.ams3.digitaloceanspaces.com/transactions_10M.csv.gz
+
+wget <url>
+
+gzip -d <file>
+
 ## Run the benchmark
 
 Start by installting necessary programs

@@ -9,4 +9,4 @@ CREATE TABLE transactions
     "created_at" timestamp(0) NOT NULL
 );
 
-SELECT create_hypertable('transactions', by_range('created_at', INTERVAL '1 year'));
+SELECT create_hypertable('transactions', by_range('created_at', INTERVAL '3 months'));

@@ -1,6 +1,6 @@
 CREATE TABLE transactions
 (
-    "id" BIGINT PRIMARY KEY,
+    "id" BIGINT,
     "user_id" BIGINT NOT NULL,
     "amount" INT NOT NULL,
     "type" varchar(255) NOT NULL,

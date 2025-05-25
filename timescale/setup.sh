@@ -27,6 +27,8 @@ do
 done
 #time sudo -u postgres psql test -t <index.sql
 
+sudo -u postgres psql test -t < colstore.sql
+
 time sudo -u postgres psql test -t -c 'VACUUM ANALYZE transactions'
 
 ./benchmark.sh

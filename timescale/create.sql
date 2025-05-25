@@ -11,7 +11,7 @@ CREATE TABLE transactions
 
 SELECT create_hypertable('transactions', by_range('created_at', INTERVAL '3 months'));
 ALTER TABLE transactions SET (timescaledb.enable_columnstore = true);
-ALTER TABLE transactions SET (timescaledb.compress_segmentby = 'user_id');
+-- ALTER TABLE transactions SET (timescaledb.compress_segmentby = 'user_id');
 -- CALL add_columnstore_policy('transactions', INTERVAL '1 day');
 
 -- Convert all chunks to columnstore

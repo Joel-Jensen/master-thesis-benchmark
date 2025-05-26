@@ -4,7 +4,7 @@ QUERY_FILE=${1:-queries.sql}
 
 echo "Results for $QUERY_FILE:"
 cat "log_${QUERY_FILE%.sql}.txt" | grep -oP 'Time: \d+\.\d+ ms' | sed -r -e 's/Time: ([0-9]+\.[0-9]+) ms/\1/' |
-    awk '{ if (i % 3 == 0) { printf "[" }; printf $1 / 1000; if (i % 3 != 2) { printf "," } else { print "]," }; ++i; }'
+    awk '{ if (i % 3 == 0) { printf "[" }; printf "%.0f", $1 / 1000; if (i % 3 != 2) { printf "," } else { print "]," }; ++i; }'
 
 # Calculate total, mean runtime statistics, and find the query with highest minimum time
 echo -e "\nRuntime Statistics for $QUERY_FILE:"
@@ -19,18 +19,23 @@ cat "log_${QUERY_FILE%.sql}.txt" | grep -oP 'Time: \d+\.\d+ ms' | sed -r -e 's/T
         }
     }
     { 
-        total += $1; 
         count++;
         # Store minimum time for each query (3 runs per query)
         query_idx = int((count - 1) / 3);
-        if ($1 < min_times[query_idx]) {
+        run_in_query = (count - 1) % 3;
+        # Only consider runs 2 and 3 (ignore first run)
+        if (run_in_query > 0 && $1 < min_times[query_idx]) {
             min_times[query_idx] = $1;
         }
     }
     END { 
         num_queries = int(count / 3);
-        printf "Total runtime: %.3f ms\n", total;
-        printf "Mean time per query: %.3f ms\n", total/count;
+        # Calculate total based on minimum times
+        for (i = 0; i < num_queries; i++) {
+            total += min_times[i];
+        }
+        printf "Total runtime (sum of minimum times): %.0f ms\n", total;
+        printf "Mean time per query: %.0f ms\n", total/num_queries;
         
         # Find query with highest minimum time
         max_min_time = 0;
@@ -41,7 +46,7 @@ cat "log_${QUERY_FILE%.sql}.txt" | grep -oP 'Time: \d+\.\d+ ms' | sed -r -e 's/T
                 max_min_query = i + 1;
             }
         }
-        printf "Query with highest minimum time: Query %d (%.3f ms)\n", max_min_query, max_min_time;
+        printf "Query with highest minimum time: Query %d (%.0f ms)\n", max_min_query, max_min_time;
     }'
 
 echo -e "\n----------------------------------------\n"

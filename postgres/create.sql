@@ -8,3 +8,18 @@ CREATE TABLE transactions
     "platform" varchar(255) NOT NULL,
     "created_at" timestamp(0) NOT NULL
 );
+
+CREATE TABLE users
+(
+    "id" BIGINT PRIMARY KEY,
+    "name" varchar(255) NOT NULL,
+    "email" varchar(255) NOT NULL,
+    "email_verified_at" timestamp(0),
+    "password" varchar(255) NOT NULL,
+    "country_code" varchar(255) NOT NULL,
+    "is_active" BOOLEAN NOT NULL,
+    "remember_token" varchar(100),
+    "created_at" timestamp(0) NOT NULL,
+    "updated_at" timestamp(0) NOT NULL
+);
+

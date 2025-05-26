@@ -4,7 +4,7 @@ QUERY_FILE=${1:-queries.sql}
 
 echo "Results for $QUERY_FILE:"
 cat "log_${QUERY_FILE%.sql}.txt" | grep -oP 'Time: \d+\.\d+ ms' | sed -r -e 's/Time: ([0-9]+\.[0-9]+) ms/\1/' |
-    awk '{ if (i % 3 == 0) { printf "[" }; printf "%.0f", $1 / 1000; if (i % 3 != 2) { printf "," } else { print "]," }; ++i; }'
+    awk '{ if (i % 3 == 0) { printf "[" }; printf $1 / 1000; if (i % 3 != 2) { printf "," } else { print "]," }; ++i; }'
 
 # Calculate total, mean runtime statistics, and find the query with highest minimum time
 echo -e "\nRuntime Statistics for $QUERY_FILE:"

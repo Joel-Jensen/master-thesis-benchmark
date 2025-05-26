@@ -10,3 +10,19 @@ CREATE OR REPLACE TABLE transactions
 )
 ENGINE = MergeTree()
 ORDER BY (toDate(created_at))
+
+CREATE TABLE users
+(
+    id UInt64,
+    name String,
+    email String,
+    email_verified_at DateTime,
+    password String,
+    country_code String,
+    is_active Boolean,
+    remember_token String,
+    created_at DateTime,
+    updated_at DateTime
+)
+ENGINE = MergeTree()
+ORDER BY (id)

@@ -25,7 +25,7 @@ do
     #echo "Loading $chunk into database..."
     sudo -u postgres psql test -c "\\copy transactions (id, user_id, amount, type, country_code, platform, created_at) FROM '$chunk' DELIMITER ','"
 done
-sudo -u postgres psql test -c "\\copy users (id, name, email, email_verified_at, password, country_code, is_active, remember_token) FROM 'users_10M.csv' DELIMITER ','"
+sudo -u postgres psql test -c "\\copy users (id, name, email, email_verified_at, password, country_code, is_active, remember_token) FROM '../users_10M.csv' DELIMITER ','"
 #time sudo -u postgres psql test -t <index.sql
 
 sudo -u postgres psql test -t < colstore.sql

@@ -9,6 +9,7 @@ docker run -d --name pg_mooncake -p 5433:5432 -e POSTGRES_HOST_AUTH_METHOD=trust
     -v "${PARENT_DIR}/split_10M:/tmp/split_10M" \
     -v "${PARENT_DIR}/users_10M.csv:/tmp/users_10M.csv" \
     -v "${PARENT_DIR}/transactions-10m-2.parquet:/tmp/transactions-10m-2.parquet" \
+    -v "${PARENT_DIR}/users-10m.parquet:/tmp/users-10m.parquet" \
     mooncakelabs/pg_mooncake:17-v0.1.0
 
 sleep 5

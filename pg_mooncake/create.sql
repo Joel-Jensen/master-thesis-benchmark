@@ -14,7 +14,7 @@ CREATE TABLE transactions
 
 CREATE TABLE users
 (
-    "id" BIGINT PRIMARY KEY,
+    "id" BIGINT ,
     "name" varchar(255) NOT NULL,
     "email" varchar(255) NOT NULL,
     "email_verified_at" timestamp(0),

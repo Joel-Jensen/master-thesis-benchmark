@@ -15,3 +15,6 @@ time split -l 100000 transactions_10M.csv split_10M/transactions_chunk_
 wget --no-verbose --continue 'https://inly-master-thesis.ams3.digitaloceanspaces.com/users_10M.csv.gz'
 gzip -d -f users_10M.csv.gz
 sed -i '1d' users_10M.csv
+
+wget --no-verbose --continue 'https://inly-master-thesis.ams3.digitaloceanspaces.com/users-10m.parquet'
+wget --no-verbose --continue 'https://inly-master-thesis.ams3.digitaloceanspaces.com/transactions-10m-2.parquet'

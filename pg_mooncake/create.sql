@@ -3,7 +3,7 @@ alter database postgres set mooncake.enable_memory_metadata_cache = true;
 \timing
 CREATE TABLE transactions
 (
-    "id" BIGINT PRIMARY KEY,
+    "id" BIGINT,
     "user_id" BIGINT NOT NULL,
     "amount" INT NOT NULL,
     "type" varchar(255) NOT NULL,

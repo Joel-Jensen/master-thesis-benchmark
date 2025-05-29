@@ -9,7 +9,7 @@ CREATE OR REPLACE TABLE transactions
     created_at DateTime
 )
 ENGINE = MergeTree()
-ORDER BY (toDate(created_at))
+ORDER BY (toDate(created_at));
 
 CREATE TABLE users
 (

@@ -31,7 +31,7 @@ done
 clickhouse-client < create.sql
 
 clickhouse-client --time --query "TRUNCATE TABLE transactions"
-clickhouse-client --time --query "INSERT INTO transactions FORMAT CSV" < ../transactions_1M.csv
+clickhouse-client --time --query "INSERT INTO transactions FORMAT CSV" < ../transactions_10M.csv
 
 clickhouse-client --time --query "TRUNCATE TABLE users"
 clickhouse-client --time --query "INSERT INTO users FORMAT CSV" < ../users_10M.csv

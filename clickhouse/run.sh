@@ -7,7 +7,7 @@ QUERY_FILE=${1:-queries.sql}
 
 cat "$QUERY_FILE" | while read -r query; do
     [ -z "$FQDN" ] && sync
-    [ -z "$FQDN" ] && echo 3 | sudo /proc/sys/vm/drop_caches >/dev/null
+    [ -z "$FQDN" ] && sudo tee /proc/sys/vm/drop_caches >/dev/null <<< "3"
 
     echo "$query"
     for i in $(seq 1 $TRIES); do
@@ -15,6 +15,7 @@ cat "$QUERY_FILE" | while read -r query; do
         echo -n "Time: $(echo "${RES} * 1000" | bc) ms"
         [[ "$i" != $TRIES ]] && echo ", "
     done
+    echo ""
     echo "----------------------------------------"
 
     QUERY_NUM=$((QUERY_NUM + 1))

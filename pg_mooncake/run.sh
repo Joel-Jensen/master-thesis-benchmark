@@ -6,7 +6,7 @@ QUERY_FILE=${1:-queries.sql}
 
 cat "$QUERY_FILE" | while read -r query; do
     sync
-    echo 3 | sudo /proc/sys/vm/drop_caches
+    sudo tee /proc/sys/vm/drop_caches >/dev/null <<< "3"
 
     echo "$query"
     (

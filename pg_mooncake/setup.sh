@@ -13,6 +13,7 @@ psql postgres://postgres:pg_mooncake@localhost:5433/postgres -t -c "INSERT INTO 
 psql postgres://postgres:pg_mooncake@localhost:5433/postgres -t -c "\\copy users (id, name, email, email_verified_at, password, country_code, is_active, remember_token, created_at, updated_at) FROM '../users_10M.csv' DELIMITER ','"
 #time psql postgres://postgres:pg_mooncake@localhost:5433/postgres -t <index.sql
 
-time psql postgres://postgres:pg_mooncake@localhost:5433/postgres -t -c 'VACUUM ANALYZE transactions'
+# This is like VACUUM ANALYZE but for pg_mooncake
+time psql postgres://postgres:pg_mooncake@localhost:5433/postgres -t -c 'UPDATE transactions SET id=id'
 
 ./benchmark.sh

@@ -11,7 +11,7 @@ CREATE OR REPLACE TABLE transactions
 ENGINE = MergeTree()
 ORDER BY (toDate(created_at));
 
-CREATE TABLE users
+CREATE OR REPLACE TABLE users
 (
     id UInt64,
     name String,

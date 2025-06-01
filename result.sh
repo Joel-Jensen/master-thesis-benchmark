@@ -40,7 +40,7 @@ cat "log_${QUERY_FILE%.sql}.txt" | grep -oP 'Time: \d+\.\d+ ms' | sed -r -e 's/T
         # Print minimum times array
         printf "Minimum times array: [";
         for (i = 0; i < num_queries; i++) {
-            printf "%.3f", min_times[i] / 1000;
+            printf "%.0f", min_times[i];
             if (i < num_queries - 1) printf ",";
         }
         print "]";

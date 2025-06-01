@@ -37,6 +37,14 @@ cat "log_${QUERY_FILE%.sql}.txt" | grep -oP 'Time: \d+\.\d+ ms' | sed -r -e 's/T
         printf "Total runtime (sum of minimum times): %.0f ms\n", total;
         printf "Mean time per query: %.0f ms\n", total/num_queries;
         
+        # Print minimum times array
+        printf "Minimum times array: [";
+        for (i = 0; i < num_queries; i++) {
+            printf "%.3f", min_times[i] / 1000;
+            if (i < num_queries - 1) printf ",";
+        }
+        print "]";
+        
         # Find query with highest minimum time
         max_min_time = 0;
         max_min_query = 0;

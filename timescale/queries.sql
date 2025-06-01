@@ -1,5 +1,5 @@
 SELECT COUNT(DISTINCT user_id) AS distinct_user_count FROM transactions;
-SELECT id, user_id, amount, type, country_code, created_at FROM transactions AND country_code = 'SE' ORDER BY amount DESC LIMIT 10;
+SELECT id, user_id, amount, type, country_code, created_at FROM transactions WHERE country_code = 'SE' ORDER BY amount DESC LIMIT 10;
 SELECT COUNT(*) AS transactions_above_average FROM transactions WHERE amount > (SELECT AVG(amount) FROM transactions);
 SELECT user_id, COUNT(*) AS transaction_count, SUM(amount) AS total_amount FROM transactions WHERE user_id IN (1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000) GROUP BY user_id ORDER BY transaction_count DESC;
 SELECT type, COUNT(*) AS transaction_count, SUM(amount) AS total_amount FROM transactions GROUP BY type ORDER BY transaction_count DESC;

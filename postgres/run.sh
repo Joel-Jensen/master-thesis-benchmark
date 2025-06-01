@@ -11,6 +11,6 @@ cat "$QUERY_FILE" | while read -r query; do
     (
         echo '\timing'
         yes "$query" | head -n $TRIES
-    ) | sudo -u postgres psql test -t | grep 'Time'
+    ) | sudo -u postgres psql test -t
     echo "----------------------------------------"
 done

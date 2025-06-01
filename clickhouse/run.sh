@@ -11,9 +11,9 @@ cat "$QUERY_FILE" | while read -r query; do
 
     echo "$query"
     for i in $(seq 1 $TRIES); do
-        RES=$(clickhouse-client --host "${FQDN:=localhost}" --password "${PASSWORD:=}" ${PASSWORD:+--secure} --time --format=Null --query="$query" --progress 0 2>&1 ||:)
-        echo -n "Time: $(echo "${RES} * 1000" | bc) ms"
-        [[ "$i" != $TRIES ]] && echo ", "
+        echo "Run $i:"
+        RES=$(clickhouse-client --host "${FQDN:=localhost}" --password "${PASSWORD:=}" ${PASSWORD:+--secure} --time --query="$query" --progress 0 2>&1)
+        echo "Time: $(echo "${RES##*Elapsed: }" | cut -d' ' -f1 | bc) seconds"
     done
     echo ""
     echo "----------------------------------------"

@@ -13,7 +13,7 @@ cat "$QUERY_FILE" | while read -r query; do
     for i in $(seq 1 $TRIES); do
         echo "Run $i:"
         RES=$(clickhouse-client --host "${FQDN:=localhost}" --password "${PASSWORD:=}" ${PASSWORD:+--secure} --time --query="$query" --progress 0 2>&1)
-        echo "Time: $(echo "${RES##*Elapsed: }" | cut -d' ' -f1 | bc) seconds"
+        echo "Time: $(echo "$RES" | grep -o -P '^\d+\.\d+$') seconds"
     done
     echo ""
     echo "----------------------------------------"

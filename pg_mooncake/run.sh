@@ -12,6 +12,6 @@ cat "$QUERY_FILE" | while read -r query; do
     (
         echo '\timing'
         yes "$query" | head -n $TRIES
-    ) | psql $CONNECTION | grep 'Time'
+    ) | psql $CONNECTION
     echo "----------------------------------------"
 done

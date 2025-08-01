@@ -47,6 +47,6 @@ echo ""
 
 # Delete the 10 inserted rows
 echo "Cleaning up inserted rows..."
-sudo -u postgres psql test -t -c "DELETE FROM transactions WHERE id >= 999999991 AND id <= 9999999100;"
+sudo -u postgres psql test -t -c "DELETE FROM transactions WHERE id >= 999999991;"
 
 echo "Cleanup completed." 

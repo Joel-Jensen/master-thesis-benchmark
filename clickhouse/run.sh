@@ -15,17 +15,17 @@ mkdir -p "$MONITOR_DIR"
 # Path to the monitoring script (assuming it's in the parent directory)
 MONITOR_SCRIPT="../monitor_system.sh"
 
+# Start monitoring before processing queries
+SYSTEM_MONITOR_FILE="$MONITOR_DIR/${QUERY_BASE}_system_$(date +%Y%m%d_%H%M%S).csv"
+
+# Start monitoring and get PID
+MONITOR_PID=$("$MONITOR_SCRIPT" "$SYSTEM_MONITOR_FILE")
+
 cat "$QUERY_FILE" | while read -r query; do
     [ -z "$FQDN" ] && sync
     [ -z "$FQDN" ] && sudo tee /proc/sys/vm/drop_caches >/dev/null <<< "3"
 
     echo "$query"
-    
-    # Start monitoring
-    SYSTEM_MONITOR_FILE="$MONITOR_DIR/${QUERY_BASE}_system_$(date +%Y%m%d_%H%M%S).csv"
-    
-    # Start monitoring and get PID
-    MONITOR_PID=$("$MONITOR_SCRIPT" "$SYSTEM_MONITOR_FILE")
     
     for i in $(seq 1 $TRIES); do
         echo "Run $i:"
@@ -34,12 +34,13 @@ cat "$QUERY_FILE" | while read -r query; do
         echo "Time: $(echo "$(echo "$RES" | grep -o -P '^\d+\.\d+$') * 1000" | bc) ms"
     done
     
-    # Stop monitoring
-    kill "$MONITOR_PID" 2>/dev/null || true
-    
-    echo "Monitoring data saved to:"
-    echo "  System: $SYSTEM_MONITOR_FILE"
     echo "----------------------------------------"
 
     QUERY_NUM=$((QUERY_NUM + 1))
 done
+
+# Stop monitoring after all queries are complete
+kill "$MONITOR_PID" 2>/dev/null || true
+
+echo "Monitoring data saved to:"
+echo "  System: $SYSTEM_MONITOR_FILE"

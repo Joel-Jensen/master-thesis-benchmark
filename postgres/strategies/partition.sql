@@ -59,6 +59,10 @@ CREATE TABLE transactions_y2024q3 PARTITION OF transactions
 CREATE TABLE transactions_y2024q4 PARTITION OF transactions
     FOR VALUES FROM ('2024-10-01') TO ('2025-01-01');
 
+-- 2025 Q1
+CREATE TABLE transactions_y2025q1 PARTITION OF transactions
+    FOR VALUES FROM ('2025-01-01') TO ('2025-04-01');
+
 -- Add constraints for each partition
 ALTER TABLE transactions_y2023q1 ADD CONSTRAINT transactions_y2023q1_check
     CHECK (created_at >= '2023-01-01' AND created_at < '2023-04-01');
@@ -83,6 +87,9 @@ ALTER TABLE transactions_y2024q3 ADD CONSTRAINT transactions_y2024q3_check
 
 ALTER TABLE transactions_y2024q4 ADD CONSTRAINT transactions_y2024q4_check
     CHECK (created_at >= '2024-10-01' AND created_at < '2025-01-01');
+
+ALTER TABLE transactions_y2025q1 ADD CONSTRAINT transactions_y2025q1_check
+    CHECK (created_at >= '2025-01-01' AND created_at < '2025-04-01');
 
 CREATE INDEX user_id on transactions (user_id);
 CREATE INDEX type on transactions (type);

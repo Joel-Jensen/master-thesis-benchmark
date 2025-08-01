@@ -26,7 +26,7 @@ for i in {1..10}; do
     
     user_id=$((i*1000 + 1))
     # Insert a hardcoded row
-    sudo -u postgres psql test -t -c "INSERT INTO transactions (id, user_id, amount, type, country_code, platform, created_at) VALUES (99999999$i, $user_id, 150.50, 'purchase', 'SE', 'web', NOW());"
+    sudo -u postgres psql test -t -c "INSERT INTO transactions (id, user_id, amount, type, country_code, platform, created_at) VALUES (99999999$i, $user_id, 150.50, 'purchase', 'SE', 'web', '2025-01-01 00:00:0$i');"
     
     # End timing
     end_time=$(date +%s.%N)

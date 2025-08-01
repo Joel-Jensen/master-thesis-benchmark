@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -eux
+set -eu
 
 echo "=== Insert Performance Benchmark ==="
 echo ""
@@ -22,11 +22,11 @@ for i in {1..10}; do
     # End timing
     end_time=$(date +%s.%N)
     
-    # Calculate duration
-    duration=$(echo "$end_time - $start_time" | bc -l)
+    # Calculate duration in milliseconds
+    duration=$(echo "($end_time - $start_time) * 1000" | bc -l)
     insert_times+=($duration)
     
-    echo "Row $i inserted in ${duration}s"
+    echo "Row $i inserted in ${duration}ms"
 done
 
 echo ""
@@ -41,8 +41,8 @@ done
 # Calculate average time
 avg_time=$(echo "$total_time / ${#insert_times[@]}" | bc -l)
 
-echo "Total time for 10 inserts: ${total_time}s"
-echo "Average time per insert: ${avg_time}s"
+echo "Total time for 10 inserts: ${total_time}ms"
+echo "Average time per insert: ${avg_time}ms"
 echo ""
 
 # Delete the 10 inserted rows

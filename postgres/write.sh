@@ -2,16 +2,7 @@
 
 set -eux
 
-# Check if strategy parameter is provided
-if [ $# -eq 0 ]; then
-    echo "Usage: $0 <strategy>"
-    exit 1
-fi
-
-STRATEGY=$1
-
 echo "=== Insert Performance Benchmark ==="
-echo "Strategy: $STRATEGY"
 echo ""
 
 # Array to store individual insert times

@@ -93,7 +93,7 @@ ALTER TABLE transactions_y2025q1 ADD CONSTRAINT transactions_y2025q1_check
 
 CREATE INDEX user_id on transactions (user_id);
 CREATE INDEX type on transactions (type);
-CREATE INDEX created_at on transactions (created_at);
+CREATE INDEX created_at on transactions USING BRIN (created_at);
 
 /*
 CREATE TABLE transactions_y2023 PARTITION OF transactions

@@ -12,5 +12,5 @@ CREATE TABLE transactions
     "created_at" timestamp(0) NOT NULL
 );
 
--- Create columnstore mirror
-CALL mooncake.create_table('transactions');
+-- Create columnstore mirror with separate name
+CALL mooncake.create_table('transactions_iceberg', 'transactions');

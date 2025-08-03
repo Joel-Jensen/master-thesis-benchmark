@@ -28,7 +28,7 @@ CREATE TABLE users
     "updated_at" timestamp(0) NOT NULL
 );
 
--- Create columnstore mirrors using v0.2 syntax
-CALL mooncake.create_table('transactions');
-CALL mooncake.create_table('users');
+-- Create columnstore mirrors using v0.2 syntax with separate names
+CALL mooncake.create_table('transactions_iceberg', 'transactions');
+CALL mooncake.create_table('users_iceberg', 'users');
 

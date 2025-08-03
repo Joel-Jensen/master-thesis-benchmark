@@ -29,8 +29,6 @@ CREATE TABLE users
 );
 
 -- Create columnstore mirrors using v0.2 syntax with separate names
-CALL mooncake.drop_table('transactions_iceberg');
-CALL mooncake.drop_table('users_iceberg');
 CALL mooncake.create_table('transactions_iceberg', 'transactions');
 CALL mooncake.create_table('users_iceberg', 'users');
 

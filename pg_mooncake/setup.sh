@@ -2,6 +2,8 @@
 
 set -eux
 
+psql postgres://postgres:pg_mooncake@localhost:5433/postgres test -t -c 'DROP TABLE transactions'
+psql postgres://postgres:pg_mooncake@localhost:5433/postgres test -t -c 'DROP TABLE users'
 psql postgres://postgres:pg_mooncake@localhost:5433/postgres -t -c 'DROP DATABASE test WITH (FORCE)'
 psql postgres://postgres:pg_mooncake@localhost:5433/postgres -t -c 'CREATE DATABASE test'
 psql postgres://postgres:pg_mooncake@localhost:5433/postgres test -t < create.sql

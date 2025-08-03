@@ -1,6 +1,8 @@
 CREATE EXTENSION pg_mooncake;
 alter database postgres set mooncake.enable_memory_metadata_cache = true;
 \timing
+
+-- Create regular rowstore tables first
 CREATE TABLE transactions
 (
     "id" BIGINT,
@@ -10,11 +12,11 @@ CREATE TABLE transactions
     "country_code" varchar(255) NOT NULL,
     "platform" varchar(255) NOT NULL,
     "created_at" timestamp(0) NOT NULL
-) using columnstore;
+);
 
 CREATE TABLE users
 (
-    "id" BIGINT ,
+    "id" BIGINT,
     "name" varchar(255) NOT NULL,
     "email" varchar(255) NOT NULL,
     "email_verified_at" timestamp(0),
@@ -25,4 +27,8 @@ CREATE TABLE users
     "created_at" timestamp(0) NOT NULL,
     "updated_at" timestamp(0) NOT NULL
 );
+
+-- Create columnstore mirrors using v0.2 syntax
+CALL mooncake.create_table('transactions');
+CALL mooncake.create_table('users');
 

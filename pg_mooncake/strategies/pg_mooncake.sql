@@ -1,5 +1,6 @@
 CREATE EXTENSION pg_mooncake;
 
+-- Create regular rowstore table
 CREATE TABLE transactions
 (
     "id" BIGINT NOT NULL,
@@ -8,5 +9,8 @@ CREATE TABLE transactions
     "type" varchar(255) NOT NULL,
     "country_code" varchar(255) NOT NULL,
     "platform" varchar(255) NOT NULL,
-    "created_at" timestamp(0) NOT NULL,
-) USING columnstore;
+    "created_at" timestamp(0) NOT NULL
+);
+
+-- Create columnstore mirror
+CALL mooncake.create_table('transactions');

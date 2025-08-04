@@ -2,11 +2,11 @@
 
 set -eux
 
-psql postgres://postgres:pg_mooncake@localhost:5433/postgres test -t -c 'DROP TABLE transactions'
-psql postgres://postgres:pg_mooncake@localhost:5433/postgres test -t -c 'DROP TABLE users'
-psql postgres://postgres:pg_mooncake@localhost:5433/postgres -t -c 'DROP DATABASE test WITH (FORCE)'
-psql postgres://postgres:pg_mooncake@localhost:5433/postgres -t -c 'CREATE DATABASE test'
-psql postgres://postgres:pg_mooncake@localhost:5433/postgres test -t < create.sql
+psql postgres://postgres:pg_mooncake@localhost:5433/postgres -t -c 'DROP TABLE transactions'
+psql postgres://postgres:pg_mooncake@localhost:5433/postgres -t -c 'DROP TABLE users'
+psql postgres://postgres:pg_mooncake@localhost:5433/postgres -t -c 'DROP DATABASE public WITH (FORCE)'
+psql postgres://postgres:pg_mooncake@localhost:5433/postgres -t -c 'CREATE DATABASE public'
+psql postgres://postgres:pg_mooncake@localhost:5433/postgres -t < create.sql
 
 threads=$(nproc)
 cpus=$((threads > 1 ? threads / 2 : 1))

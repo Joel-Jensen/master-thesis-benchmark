@@ -13,4 +13,4 @@ CREATE TABLE transactions
 );
 
 -- Create columnstore mirror with separate name and URI
-CALL mooncake.create_table('transactions_iceberg', 'transactions', 'postgresql://postgres:pg_mooncake@localhost:5433/test');
+CALL mooncake.create_table('transactions_iceberg', 'transactions');

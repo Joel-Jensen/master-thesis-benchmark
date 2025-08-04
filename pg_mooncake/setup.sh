@@ -4,8 +4,6 @@ set -eux
 
 psql postgres://postgres:pg_mooncake@localhost:5433/postgres -t -c 'DROP TABLE transactions'
 psql postgres://postgres:pg_mooncake@localhost:5433/postgres -t -c 'DROP TABLE users'
-psql postgres://postgres:pg_mooncake@localhost:5433/postgres -t -c 'DROP DATABASE public WITH (FORCE)'
-psql postgres://postgres:pg_mooncake@localhost:5433/postgres -t -c 'CREATE DATABASE public'
 psql postgres://postgres:pg_mooncake@localhost:5433/postgres -t < create.sql
 
 threads=$(nproc)

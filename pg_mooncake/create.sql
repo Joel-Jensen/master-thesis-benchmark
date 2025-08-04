@@ -29,6 +29,5 @@ CREATE TABLE users
 );
 
 -- Create columnstore mirrors using v0.2 syntax with separate names and URI
-CALL mooncake.create_table('transactions_iceberg', 'transactions', 'postgresql://postgres:pg_mooncake@localhost:5433/test');
-CALL mooncake.create_table('users_iceberg', 'users', 'postgresql://postgres:pg_mooncake@localhost:5433/test');
-
+CALL mooncake.create_table('transactions_iceberg', 'transactions');
+CALL mooncake.create_table('users_iceberg', 'users');
